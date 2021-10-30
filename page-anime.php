@@ -6,8 +6,19 @@
  */
 
 get_header(); ?>
+<div class="page-information-card-container"></div>
 
-<meta name="referrer" content="never">
+<?php get_sidebar(); ?>
+
+<div id="primary" class="content-area">
+	<main id="main" class="site-main" role="main">
+	<article class="post post-full card bg-white shadow-sm border-0" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+	<header class="post-header text-center">
+		<a class="post-title" href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+<hr>
+</header>
+<?php the_content(); ?>
+
 <link href="/json/css/col.min.css" rel="stylesheet">
 <style>
     /* B站追番 */
@@ -29,16 +40,18 @@ get_header(); ?>
 
     .bangumi-banner {
         position: relative;
-        overflow: hidden
+        overflow: hidden;
     }
 
     .bangumi-banner img {
         display: block;
         width: 100%;
-        height: 220px;
+        height: 100%;
         margin: 15px auto;
-        border-radius: 3px
+        border-radius: 3px;
+        background-color: var(--themecolor);
     }
+    
 
     .bangumi-des {
         position: absolute;
@@ -72,34 +85,39 @@ get_header(); ?>
         white-space: nowrap;
         font-family: 'Ubuntu', sans-serif
     }
+    .bangumi-status {
+        text-align: center;
+    }
 
+    .bangumi-follow_status,.bangumi-finish{
+        margin: 5px;
+        border: 1px solid var(--themecolor-light);
+        display: inline-block;
+        font-size:12px;
+        vertical-align:middle;
+        margin-right:10px;
+        height:20px;
+        padding:0 4px;
+        line-height:20px;
+        border-radius:3px;
+    }
     .bangumi-progress,
     .bangumi-progress-bar {
         border-radius: 4px;
-        height: 8px
-    }
+        height: 8px;
+        max-width: 100%;
+        
 
+    }
+    .bangumi-progress-num{
+     text-align: center;    
+    }
     .bangumi-progress {
         background: #ddd
     }
 
     .bangumi-progress-bar {
         background: gray
-    }
-
-    .page-header {
-        text-align: center;
-        border-bottom: 1px solid #a773c3
-    }
-
-    .page-header h1 small {
-        font-size: 18px;
-        color: #e42c64
-    }
-
-    .page-header h1 {
-        color: #63707e;
-        font-weight: 800
     }
 
     .bangumi-item a {
@@ -145,14 +163,9 @@ get_header(); ?>
     }
 </style>
 <?php
-$sum = json_decode(file_get_contents(home_url() . "/json/GetAnimeData.php?limit=1&page=0"), true);
-echo "<div class=\"page-header\"><h1>我的追番 <small>当前已追" . $sum['total'] . "部，继续加油！</small></h1></div><div id=\"bilibiliAnime\" class=\"row\"></div><div id=\"next\">. NEXT .</div>"
+echo "<div class=\"page-header\"><h2>我的追番 <small>当前已追<span id=total>loading...</span>部，继续加油！</small></h2></div><div id=\"bilibiliAnime\" class=\"row\"></div><div id=\"next\">. NEXT .</div>"
 ?>
 
-<script type="text/javascript">
-    window.jQuery || document.write('<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"><\/script>')
-</script>
-<script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         var pagenum = 0;
@@ -174,12 +187,13 @@ echo "<div class=\"page-header\"><h1>我的追番 <small>当前已追" . $sum['t
             },
             dataType: "json",
             beforeSend: function() {
-                $("#bilibiliAnime").append("<img class=\"loading_dsasd\" src=\"/json/images/loading.svg\">");
+                $("#bilibiliAnime").append("<img  class=\"loading_dsasd\" src=\"/json/images/loading.svg\">");
             },
             complete: function() {
                 $(".loading_dsasd").remove();
             },
             success: function(data) {
+                $("#total").text(""+ data.total +"");
                 var i;
                 if (data.total_page == page && page == 0) {
                     $("div#next").hide();
@@ -187,10 +201,9 @@ echo "<div class=\"page-header\"><h1>我的追番 <small>当前已追" . $sum['t
                     $("div#next").text("真的没有更多了哦~");
                 }
                 for (i = 0; i < data.data.length; i++) {
-                    $("#bilibiliAnime").append("<div class=\"bangumi-item col-md-4 col-lg-3 col-sm-6\"><a class=\"no-line bangumi-link\" href=\"https://www.bilibili.com/bangumi/play/ss" + data.data[i].id + "/ \" target=\"_blank\"><div class=\"bangumi-banner\"><img class=\"lazy\" src=\"/json/images/loading.svg\" data-src=\"" + data.data[i].image_url + "\"><div class=\"bangumi-des\"><p>" + data.data[i].evaluate + "</p></div></div><div class=\"bangumi-content\"><h3 class=\"bangumi-title\">" + data.data[i].title + "</h3><div class=\"bangumi-progress\" style=\"width:100%\"><div class=\"bangumi-progress-bar\" style=\"width:" + data.data[i].progress_bar + "\"></div></div><div class=\"bangumi-progress-num\">进度：" + data.data[i].progress + "</div></div></a></div>");
+                    $("#bilibiliAnime").append("<div class=\"bangumi-item col-md-4 col-lg-3 col-sm-6\"><a class=\"no-line bangumi-link\" href=\"https://www.bilibili.com/bangumi/play/ss" + data.data[i].id + "/ \" target=\"_blank\"><div class=\"bangumi-banner\"><img referrerpolicy=\"no-referrer\" src=\"" + data.data[i].image_url + "\"><div class=\"bangumi-des\"><p>" + data.data[i].title + "【" + data.data[i].finish + "】</p><p>" + data.data[i].evaluate + "</p></div></div><div class=\"bangumi-content\"><div class=\"bangumi-title\">" + data.data[i].title + "</div><div class=\"bangumi-status\" style=\"width:100%\"><span class=\"bangumi-follow_status\">" + data.data[i].follow_status + "</span><span class=\"bangumi-finish\">" + data.data[i].finish + "</span></div><div class=\"bangumi-progress\" style=\"width:100%\"><div class=\"bangumi-progress-bar\" style=\"width:" + data.data[i].progress_bar + "\"></div></div><div class=\"bangumi-progress-num\">" + data.data[i].progress + "</div></div></a></div>");
                     // console.log(data); // 查看AJAX获取的数据
                 }
-                $("img.lazy").lazyload(); // 图片懒加载
             },
             error: function(data) {
                 alert(data.result);
@@ -198,6 +211,12 @@ echo "<div class=\"page-header\"><h1>我的追番 <small>当前已追" . $sum['t
         });
     }
 </script>
+</article>
+		<?php
+			if (comments_open() || get_comments_number()) {
+				comments_template();
+			}
+			?>
 
 <?php
 get_footer();
