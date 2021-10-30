@@ -1,6 +1,4 @@
 <?php
-header('Access-Control-Allow-Origin: https://blog.suiyil.cn');
-header('Access-Control-Allow-Methods: GET');
 $array = array();
 $limit = $_GET["limit"];
 $page = $_GET["page"];
