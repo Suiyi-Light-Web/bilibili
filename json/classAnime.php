@@ -33,6 +33,8 @@ class bilibiliAnime
             return "观看到OVA~";
         } elseif (strpos($content, "SP")) {
             return "观看到特别篇";
+        } elseif (strpos($content, "PV")) {
+            return "观看到宣传PV~";
         } elseif ($content == null) {
             return "貌似还没有看呢~";
         } else {
