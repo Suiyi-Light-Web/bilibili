@@ -21,9 +21,9 @@ $pagenum = $page * $limit;  // 第一页为 page = 0
 function progress($str1, $str2,$str3)
 {
     if (is_numeric($str1) && is_numeric($str2) && $str1 == $str2 && $str3 == 1) {
-        return "观看到" . $str1 . "（最终）话了~";
+        return "观看到第" . $str1 . "话（最终）了~";
     } elseif (is_numeric($str1) && is_numeric($str2) && $str1 == $str2) {
-        return "观看到" . $str1 . "（最新）话了~";
+        return "观看到第" . $str1 . "话（最新）了~";
     } elseif (is_numeric($str1) && is_numeric($str2) && $str1<$str2 && $str3 == 1) {
         return "观看到第" . $str1 . "话/共" . $str2 . "话";    
     } elseif (is_numeric($str1) && is_numeric($str2) && $str1<$str2) {
