@@ -21,13 +21,15 @@ $pagenum = $page * $limit;  // 第一页为 page = 0
 function progress($str1, $str2,$str3)
 {
     if (is_numeric($str1) && is_numeric($str2) && $str1 == $str2 && $str3 == 1) {
-        return "追到最终话了（" . $str1 . "）~";
+        return "观看到" . $str1 . "（最终）话了~";
     } elseif (is_numeric($str1) && is_numeric($str2) && $str1 == $str2) {
-        return "追到最新一话了（" . $str1 . "）~";
+        return "观看到" . $str1 . "（最新）话了~";
+    } elseif (is_numeric($str1) && is_numeric($str2) && $str1<$str2 && $str3 == 1) {
+        return "观看到第" . $str1 . "话/共" . $str2 . "话";    
     } elseif (is_numeric($str1) && is_numeric($str2) && $str1<$str2) {
-        return "第" . $str1 . "话/共" . $str2 . "话";    
+        return "观看到第" . $str1 . "话/已更新" . $str2 . "话";
     } elseif (is_numeric($str1) && is_numeric($str2) && $str1>$str2) {
-        return "观看第" . $str1 . "话预告/已更新" . $str2 . "话";
+        return "观看到第" . $str1 . "话预告/已更新" . $str2 . "话";
     } elseif (is_numeric($str1) && !is_numeric($str2)) {
         return "第" . $str1 . "话/" . $str2;
     } elseif ($str2 == "还没开始更新呢~") {
