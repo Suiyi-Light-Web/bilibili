@@ -17,7 +17,7 @@ function finish($str1, $str2, $type)
         return "已完结";
     } elseif (is_numeric($str1) && $str1 == 1 && $str2 == 0 ){
         return "敬请期待";
-    } elseif (is_numeric($str1) && $str1 == 0 && $type == 电影 )
+    } elseif (is_numeric($str1) && $str1 == 0 && $type == '电影' )
  {
         return "敬请期待";
     } elseif (is_numeric($str1) && $str1 == 0)
