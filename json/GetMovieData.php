@@ -43,6 +43,34 @@ function follow_status($str1)
         return "状态未知";
     }
 }
+//暂无评分
+function rating_score($score)
+{
+    if ($score == null){
+        return "暂无评分";
+    } else {
+        return $score;
+    }
+}
+function rating_count($count)
+{
+    if ($count == null){
+        return " 暂无 ";
+    } else {
+        return $count;
+    }
+}
+//播放量k，w
+function play($num)
+{
+    if($num >= 1000 && $num < 10000){
+        return round(($num / 1000),2).'k';
+    }
+    if($num >= 10000 ){
+        return round(($num / 10000),2).'w';
+    }
+    return $num;
+}
 
 require_once("bilibiliAcconut.php");
 require_once("classMovie.php");
@@ -62,6 +90,9 @@ for ($i = 0; $i < $total; $i++) {
     $array[$i]['image_url'] = $biliM->image_url[$pagenum];
     $array[$i]['evaluate'] = $biliM->evaluate[$pagenum];
     $array[$i]['id'] = $biliM->season_id[$pagenum];
+    $array[$i]['view'] = $biliM->stat_view[$pagenum];
+    $array[$i]['rating_score'] = rating_score($biliM->rating_score[$pagenum]);
+    $array[$i]['rating_count'] = rating_count($biliM->rating_count[$pagenum]);
     $array[$i]['finish'] = finish($biliM->finish[$pagenum], $biliM->can_watch[$pagenum], $biliM->type[$pagenum]);
     $array[$i]['follow_status'] = follow_status($biliM->follow_status[$pagenum]);
     $array[$i]['type'] = $biliM->type[$pagenum];
