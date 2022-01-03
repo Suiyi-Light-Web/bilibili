@@ -10,8 +10,10 @@ class bilibiliAnime
     public $season_id = array();  // ID号
     public $finish  = array(); //完结状态
     public $follow_status  = array(); //完结状态
-
-
+    public $rating_score = array(); //评分
+    public $rating_count = array(); //评分人数
+    public $stat_view = array(); //播放量
+    
     // 获取追番总数
     private function getpage($uid)
     {
@@ -74,6 +76,10 @@ class bilibiliAnime
                 array_push($this->season_id, $data['season_id']);
                 array_push($this->finish, $data['is_finish']);
                 array_push($this->follow_status, $data['follow_status']);
+                array_push($this->rating_score, $data['rating']['score']);
+                array_push($this->rating_count, $data['rating']['count']);
+                array_push($this->stat_view, $data['stat']['view']);
+
             }
         }
     }

@@ -10,6 +10,9 @@ class bilibiliMovie
     public $finish =  array();  // 更新状态
     public $follow_status =  array();  // 追剧状态
     public $can_watch =  array();  // 观看状态
+    public $rating_score = array(); //评分
+    public $rating_count = array(); //评分人数
+    public $stat_view = array(); //播放量
 
 
     // 获取追剧总数
@@ -35,6 +38,10 @@ class bilibiliMovie
                 array_push($this->type, $data['season_type_name']);
                 array_push($this->follow_status , $data['follow_status']);
                 array_push($this->can_watch, $data['can_watch']);
+                array_push($this->rating_score, $data['rating']['score']);
+                array_push($this->rating_count, $data['rating']['count']);
+                array_push($this->stat_view, $data['stat']['view']);
+
 
             }
         }
