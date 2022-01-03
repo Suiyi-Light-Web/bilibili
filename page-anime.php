@@ -19,7 +19,7 @@ get_header(); ?>
 </header>
 <?php the_content(); ?>
 
-<link href="/diy/col.min.css" rel="stylesheet">
+<link href="/json/css/col.min.css" rel="stylesheet">
 <style>
     /* B站追番 */
     .row {
@@ -185,7 +185,7 @@ echo "<div class=\"page-header\"><h2>我的追番 <small>当前已追<span id=to
     function GetAnimeData(limit, page) {
         $.ajax({
             type: "get",
-            url: "/bilibili/json/GetAnimeData.php",
+            url: "/json/GetAnimeData.php",
             data: {
                 "limit": limit, // 每页个数
                 "page": page // 页号,第一页 page = 0
