@@ -78,6 +78,37 @@ function follow_status($str1)
         return "状态未知";
     }
 }
+//暂无评分
+function rating_score($score)
+{
+    if ($score == null){
+        return "暂无评分";
+    } else {
+        return $score;
+    }
+}
+function rating_count($count)
+{
+    if ($count == null){
+        return " 暂无 ";
+    } else {
+        return $count;
+    }
+}
+//播放量k，w
+function play($num)
+{
+    if($num >= 1000 && $num < 10000){
+        return round(($num / 1000),2).'k';
+    }
+    if($num >= 10000 && $num < 100000000 ){
+        return round(($num / 10000),2).'w';
+    }
+    if($num >= 100000000 ){ 
+        return round(($num / 100000000),2).'E';
+    }
+    return $num;
+}
 // 构造请求接口
 for ($i = 0; $i < $total; $i++) {
     // limit
@@ -89,6 +120,9 @@ for ($i = 0; $i < $total; $i++) {
     $array[$i]['image_url'] = $biliA->image_url[$pagenum];
     $array[$i]['evaluate'] = $biliA->evaluate[$pagenum];
     $array[$i]['id'] = $biliA->season_id[$pagenum];
+    $array[$i]['view'] = play($biliA->stat_view[$pagenum]);
+    $array[$i]['rating_score'] = rating_score($biliA->rating_score[$pagenum]);
+    $array[$i]['rating_count'] = rating_count($biliA->rating_count[$pagenum]);
     $array[$i]['progress'] = progress($biliA->progress[$pagenum], $biliA->fan_number[$pagenum], $biliA->finish[$pagenum]);
     $array[$i]['progress_bar'] = progress_bar($biliA->progress[$pagenum], $biliA->fan_number[$pagenum]);
     $array[$i]['finish'] = finish($biliA->finish[$pagenum]);
