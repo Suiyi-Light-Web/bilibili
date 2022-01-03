@@ -87,6 +87,10 @@ get_header(); ?>
         white-space: nowrap;
         font-family: 'Ubuntu', sans-serif
     }
+    .score {
+        margin-left: 5px; 
+        color: #ffa726;
+    }
 
     .bangumi-item a {
         text-decoration: none;
@@ -171,7 +175,7 @@ echo "<div class=\"page-header\"><h2>我的追剧 <small>当前已追<span id=to
             },
             dataType: "json",
             beforeSend: function() {
-                $("#bilibiliMovie").append("<img class=\"loading_dsasd\" src=\"/json/images/loading.svg\">");
+                $("#bilibiliMovie").append("<img class=\"loading_dsasd\" src=\"https://image.suiyil.cn/2021/05/loading-2.gif\">");
             },
             complete: function() {
                 $(".loading_dsasd").remove();
@@ -185,7 +189,7 @@ echo "<div class=\"page-header\"><h2>我的追剧 <small>当前已追<span id=to
                     $("div#next").text("真的没有更多了哦~");
                 }
                 for (i = 0; i < data.data.length; i++) {
-                    $("#bilibiliMovie").append("<div class=\"bangumi-item col-md-4 col-lg-3 col-sm-6\"><a class=\"no-line bangumi-link\" href=\"https://www.bilibili.com/bangumi/play/ss" + data.data[i].id + "/ \" target=\"_blank\"><div class=\"bangumi-banner\"><img referrerpolicy=\"no-referrer\" src=\"" + data.data[i].image_url + "\"><div class=\"bangumi-des\"><p>" + data.data[i].evaluate + "</p></div></div><div class=\"bangumi-content\"><div class=\"bangumi-title\">" + data.data[i].title + "</div></div><div class=\"bangumi-status\" style=\"width:100%\"><span class=\"bangumi-type\">" + data.data[i].type + "</span><span class=\"bangumi-finish\">" + data.data[i].finish + "</span><span class=\"bangumi-follow_status\">" + data.data[i].follow_status + "</span></div></div></a></div>");
+                    $("#bilibiliMovie").append("<div class=\"bangumi-item col-md-4 col-lg-3 col-sm-6\"><a class=\"no-line bangumi-link\" href=\"https://www.bilibili.com/bangumi/play/ss" + data.data[i].id + "/ \" target=\"_blank\"><div class=\"bangumi-banner\"><img referrerpolicy=\"no-referrer\" src=\"" + data.data[i].image_url + "\"><div class=\"bangumi-des\"><p>" + data.data[i].evaluate + "</p>B站评分<span class=\"score\">" + data.data[i].rating_score + "</span><br>评分人数" + data.data[i].rating_count + "</div></div><div class=\"bangumi-content\"><div class=\"bangumi-title\">" + data.data[i].title + "<span class=\"score\"><small>" + data.data[i].rating_score + "</small></span></div></div><div class=\"bangumi-status\" style=\"width:100%\"><span class=\"bangumi-type\">" + data.data[i].type + "</span><span class=\"bangumi-finish\">" + data.data[i].finish + "</span><span class=\"bangumi-follow_status\">" + data.data[i].follow_status + "</span></div></div></a></div>");
                     //console.log(data); // 查看AJAX获取的数据
                 }
             },
