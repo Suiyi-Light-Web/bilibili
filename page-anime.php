@@ -19,7 +19,7 @@ get_header(); ?>
 </header>
 <?php the_content(); ?>
 
-<link href="/json/css/col.min.css" rel="stylesheet">
+<link href="/diy/col.min.css" rel="stylesheet">
 <style>
     /* B站追番 */
     .row {
@@ -84,7 +84,12 @@ get_header(); ?>
         text-overflow: ellipsis;
         white-space: nowrap;
         font-family: 'Ubuntu', sans-serif
+    } 
+    .score {
+        margin-left: 5px; 
+        color: #ffa726;
     }
+
     .bangumi-status {
         text-align: center;
     }
@@ -180,14 +185,14 @@ echo "<div class=\"page-header\"><h2>我的追番 <small>当前已追<span id=to
     function GetAnimeData(limit, page) {
         $.ajax({
             type: "get",
-            url: "/json/GetAnimeData.php",
+            url: "/bilibili/json/GetAnimeData.php",
             data: {
                 "limit": limit, // 每页个数
                 "page": page // 页号,第一页 page = 0
             },
             dataType: "json",
             beforeSend: function() {
-                $("#bilibiliAnime").append("<img  class=\"loading_dsasd\" src=\"/json/images/loading.svg\">");
+                $("#bilibiliAnime").append("<img  class=\"loading_dsasd\" src=\"https://image.suiyil.cn/2021/05/loading-2.gif\">");
             },
             complete: function() {
                 $(".loading_dsasd").remove();
@@ -201,7 +206,8 @@ echo "<div class=\"page-header\"><h2>我的追番 <small>当前已追<span id=to
                     $("div#next").text("真的没有更多了哦~");
                 }
                 for (i = 0; i < data.data.length; i++) {
-                    $("#bilibiliAnime").append("<div class=\"bangumi-item col-md-4 col-lg-3 col-sm-6\"><a class=\"no-line bangumi-link\" href=\"https://www.bilibili.com/bangumi/play/ss" + data.data[i].id + "/ \" target=\"_blank\"><div class=\"bangumi-banner\"><img referrerpolicy=\"no-referrer\" src=\"" + data.data[i].image_url + "\"><div class=\"bangumi-des\"><p>" + data.data[i].title + "【" + data.data[i].finish + "】</p><p>" + data.data[i].evaluate + "</p></div></div><div class=\"bangumi-content\"><div class=\"bangumi-title\">" + data.data[i].title + "</div><div class=\"bangumi-status\" style=\"width:100%\"><span class=\"bangumi-follow_status\">" + data.data[i].follow_status + "</span><span class=\"bangumi-finish\">" + data.data[i].finish + "</span></div><div class=\"bangumi-progress\" style=\"width:100%\"><div class=\"bangumi-progress-bar\" style=\"width:" + data.data[i].progress_bar + "\"></div></div><div class=\"bangumi-progress-num\">" + data.data[i].progress + "</div></div></a></div>");
+                    $("#bilibiliAnime").append("<div class=\"bangumi-item col-md-4 col-lg-3 col-sm-6\"><a class=\"no-line bangumi-link\" href=\"https://www.bilibili.com/bangumi/play/ss" + data.data[i].id + "/ \" target=\"_blank\"><div class=\"bangumi-banner\"><img referrerpolicy=\"no-referrer\" src=\"" + data.data[i].image_url + "\"><div class=\"bangumi-des\"><p>" + data.data[i].title + "【" + data.data[i].finish + "】</p>播放" + data.data[i].
+                   view+ "<br>B站评分<span class=\"score\">" + data.data[i].rating_score + "</span><br>评分人数" + data.data[i].rating_count + "<p>" + data.data[i].evaluate + "</p></div></div><div class=\"bangumi-content\"><div class=\"bangumi-title\">" + data.data[i].title + "<span class=\"score\"><small>" + data.data[i].rating_score + "</small></span></div><div class=\"bangumi-status\" style=\"width:100%\"><span class=\"bangumi-follow_status\">" + data.data[i].follow_status + "</span><span class=\"bangumi-finish\">" + data.data[i].finish + "</span></div><div class=\"bangumi-progress\" style=\"width:100%\"><div class=\"bangumi-progress-bar\" style=\"width:" + data.data[i].progress_bar + "\"></div></div><div class=\"bangumi-progress-num\">" + data.data[i].progress + "</div></div></a></div>");
                     // console.log(data); // 查看AJAX获取的数据
                 }
             },
