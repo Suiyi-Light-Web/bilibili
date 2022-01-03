@@ -192,7 +192,7 @@ echo "<div class=\"page-header\"><h2>我的追番 <small>当前已追<span id=to
             },
             dataType: "json",
             beforeSend: function() {
-                $("#bilibiliAnime").append("<img  class=\"loading_dsasd\" src=\"https://image.suiyil.cn/2021/05/loading-2.gif\">");
+                $("#bilibiliAnime").append("<img  class=\"loading_dsasd\" src=\"/json/images/loading.svg\">");
             },
             complete: function() {
                 $(".loading_dsasd").remove();
