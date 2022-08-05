@@ -11,17 +11,13 @@ if (empty($limit)) {
 }
 
 //完结状态
-function finish($str1, $str2, $type)
+function finish($str1, $str2)
 {
     if (is_numeric($str1) && $str1 == 1 && $str2 == 1){
         return "已完结";
     } elseif (is_numeric($str1) && $str1 == 1 && $str2 == 0 ){
         return "敬请期待";
-    } elseif (is_numeric($str1) && $str1 == 0 && $type == '电影' )
- {
-        return "敬请期待";
-    } elseif (is_numeric($str1) && $str1 == 0)
- {
+    } elseif (is_numeric($str1) && $str1 == 0){
         return "更新中";
     } else {
         return "状态未知";
@@ -93,7 +89,7 @@ for ($i = 0; $i < $total; $i++) {
     $array[$i]['view'] = $biliM->stat_view[$pagenum];
     $array[$i]['rating_score'] = rating_score($biliM->rating_score[$pagenum]);
     $array[$i]['rating_count'] = rating_count($biliM->rating_count[$pagenum]);
-    $array[$i]['finish'] = finish($biliM->finish[$pagenum], $biliM->can_watch[$pagenum], $biliM->type[$pagenum]);
+    $array[$i]['finish'] = finish($biliM->finish[$pagenum], $biliM->can_watch[$pagenum]);
     $array[$i]['follow_status'] = follow_status($biliM->follow_status[$pagenum]);
     $array[$i]['type'] = $biliM->type[$pagenum];
     $pagenum++;
