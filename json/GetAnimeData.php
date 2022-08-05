@@ -120,7 +120,7 @@ function url ($id,$area)
 {   if ($area ==1) {
     return "https://www.bilibili.com/bangumi/play/ss". $id ."/";}
     else {
-    return "https://blog.suiyil.cn/bilibili-bangumi/area-tip/?ss=". $id ;    
+    return "https://www.bilibili.com/bangumi/play/ss". $id ."/" ;    
     }
 }
 function area ($num)
