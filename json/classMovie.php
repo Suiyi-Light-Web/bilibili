@@ -32,7 +32,7 @@ class bilibiliMovie
             foreach ($info['data']['list'] as $data) {
                 array_push($this->title, $data['title']);
                 array_push($this->image_url, str_replace('http://', '//', $data['cover']));  // 协议跟随
-                array_push($this->evaluate, $data['evaluate']);
+                array_push($this->evaluate, $data['summary']);
                 array_push($this->season_id, $data['season_id']);
                 array_push($this->finish, $data['is_finish']);
                 array_push($this->type, $data['season_type_name']);

@@ -29,7 +29,7 @@ function progress($str1, $str2,$str3)
     } elseif (is_numeric($str1) && is_numeric($str2) && $str1<$str2) {
         return "观看到第" . $str1 . "话/已更新" . $str2 . "话";
     } elseif (is_numeric($str1) && is_numeric($str2) && $str1>$str2) {
-        return "观看到第" . $str1 . "话预告/已更新" . $str2 . "话";
+        return "观看到第" . $str1 . "话预告/番外【非正片】";
     } elseif (is_numeric($str1) && !is_numeric($str2)) {
         return "第" . $str1 . "话/" . $str2;
     } elseif ($str2 == "还没开始更新呢~") {
@@ -51,12 +51,16 @@ function progress_bar($str1, $str2)
 }
 
 //完结状态
-function finish($str1)
+function finish($str1,$str2)
 {
-    if (is_numeric($str1) && $str1 == 1) {
+    if (is_numeric($str1) && $str1 == 1) 
+    {
         return "已完结";
+    } elseif ($str2 == "还没开始更新呢~") 
+    {
+        return "敬请期待";
     } elseif (is_numeric($str1) && $str1 == 0)
- {
+    {
         return "连载中";
     } else {
         return "状态未知";
@@ -82,14 +86,14 @@ function follow_status($str1)
 function rating_score($score)
 {
     if ($score == null){
-        return "暂无评分";
+        return "暂无评分"; 
     } else {
         return $score;
     }
 }
 function rating_count($count)
 {
-    if ($count == null){
+     if ($count == null){
         return " 暂无 ";
     } else {
         return $count;
@@ -98,6 +102,9 @@ function rating_count($count)
 //播放量k，w
 function play($num)
 {
+    if($num == null){
+        return " 暂无播放量 " ;
+    }
     if($num >= 1000 && $num < 10000){
         return round(($num / 1000),2).'k';
     }
@@ -109,6 +116,30 @@ function play($num)
     }
     return $num;
 }
+function url ($id,$area)
+{   if ($area ==1) {
+    return "https://www.bilibili.com/bangumi/play/ss". $id ."/";}
+    else {
+    return "https://www.bilibili.com/bangumi/play/ss". $id ."/" ;    
+    }
+}
+function area ($num)
+{
+    if( $num == 1 ){
+        return "大陆";
+    } elseif ($num == 2 ){ 
+        return "港澳台";
+    } elseif ($num == 3 ){ 
+        return "港澳";
+    } elseif ($num == 4 ){ 
+        return "台湾";
+    } else { 
+        return "区域未知";
+    };
+}
+function title ($title){
+    return str_replace('（僅限台灣地區）','',str_replace('（僅限港澳地區）','',str_replace('（僅限港澳台地區）','', $title)));
+}
 // 构造请求接口
 for ($i = 0; $i < $total; $i++) {
     // limit
@@ -116,7 +147,7 @@ for ($i = 0; $i < $total; $i++) {
         break;
     }
     $array[$i]['num'] = $i;
-    $array[$i]['title'] = $biliA->title[$pagenum];
+    $array[$i]['title'] = title($biliA->title[$pagenum]);
     $array[$i]['image_url'] = $biliA->image_url[$pagenum];
     $array[$i]['evaluate'] = $biliA->evaluate[$pagenum];
     $array[$i]['id'] = $biliA->season_id[$pagenum];
@@ -125,8 +156,10 @@ for ($i = 0; $i < $total; $i++) {
     $array[$i]['rating_count'] = rating_count($biliA->rating_count[$pagenum]);
     $array[$i]['progress'] = progress($biliA->progress[$pagenum], $biliA->fan_number[$pagenum], $biliA->finish[$pagenum]);
     $array[$i]['progress_bar'] = progress_bar($biliA->progress[$pagenum], $biliA->fan_number[$pagenum]);
-    $array[$i]['finish'] = finish($biliA->finish[$pagenum]);
+    $array[$i]['finish'] = finish($biliA->finish[$pagenum],$biliA->fan_number[$pagenum]);
     $array[$i]['follow_status'] = follow_status($biliA->follow_status[$pagenum]);
+    $array[$i]['url'] = url($biliA-> season_id[$pagenum],$biliA-> area[$pagenum]);
+    $array[$i]['right_area'] = area($biliA-> area[$pagenum]);
     $pagenum++;
 }
 echo '{"total": ' . $total . ',"total_page": ' . $total_page . ', "limit": ' . $limit . ', "page": ' . $page . ', "data":' . json_encode($array, true) . '}';

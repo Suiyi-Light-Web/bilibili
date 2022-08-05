@@ -13,6 +13,7 @@ class bilibiliAnime
     public $rating_score = array(); //评分
     public $rating_count = array(); //评分人数
     public $stat_view = array(); //播放量
+    public $area =array();
     
     // 获取追番总数
     private function getpage($uid)
@@ -22,6 +23,20 @@ class bilibiliAnime
         return $info['data']['total'];
     }
 
+    function area ($t)
+{
+    if(stripos($t,"僅限港澳台")){
+        return 2;
+    } elseif (stripos($t,"僅限港澳")){
+        return 3;
+    }
+    elseif (stripos($t,"僅限台灣")){
+        return 4;
+    }
+    else{
+        return 1;
+    };
+}
     // 处理观看记录的函数
     private function process($content)
     {
@@ -72,14 +87,14 @@ class bilibiliAnime
                 array_push($this->image_url, str_replace('http://', '//', $data['cover']));  // 协议跟随
                 array_push($this->fan_number, $this->fan_number($data['new_ep']['title']));
                 array_push($this->progress, $this->process($data['progress']));
-                array_push($this->evaluate, $data['evaluate']);
+                array_push($this->evaluate, $data['summary']);
                 array_push($this->season_id, $data['season_id']);
                 array_push($this->finish, $data['is_finish']);
                 array_push($this->follow_status, $data['follow_status']);
                 array_push($this->rating_score, $data['rating']['score']);
                 array_push($this->rating_count, $data['rating']['count']);
                 array_push($this->stat_view, $data['stat']['view']);
-
+                array_push($this->area, $this->area($data['title']));
             }
         }
     }
