@@ -12,7 +12,7 @@ if (empty($limit)) {
 
 require_once("bilibiliAcconut.php");
 require_once("classAnime.php");
-$biliA = new bilibiliAnime($UID, $Cookie);
+$biliA = new bilibiliAnime($UID);
 $total = $biliA->total;  // 追番总数
 $total_page = intdiv($total, $limit);  // 分页总数
 $pagenum = $page * $limit;  // 第一页为 page = 0
