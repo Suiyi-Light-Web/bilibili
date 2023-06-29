@@ -18,7 +18,7 @@ get_header(); ?>
 <hr>
 </header>
 <?php the_content(); ?>
-<link href="/json/css/col.min.css" rel="stylesheet">
+<link href="/diy/col.min.css" rel="stylesheet">
 <style>
     /* B站追番 */
     .row {
