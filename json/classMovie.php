@@ -22,7 +22,6 @@ class bilibiliMovie
         $info = json_decode(file_get_contents($url), true);
         return $info['data']['total'];
     }
-
     public function __construct($uid)
     {
         $this->total = $this->getpage($uid);
@@ -38,10 +37,16 @@ class bilibiliMovie
                 array_push($this->type, $data['season_type_name']);
                 array_push($this->follow_status , $data['follow_status']);
                 array_push($this->can_watch, $data['can_watch']);
+                if (isset($data["rating"])){
                 array_push($this->rating_score, $data['rating']['score']);
-                array_push($this->rating_count, $data['rating']['count']);
-                array_push($this->stat_view, $data['stat']['view']);
-
+                array_push($this->rating_count, $data['rating']['count']);}
+                else {
+                array_push($this->rating_score, null);
+                array_push($this->rating_count, null);                    
+                }
+                 if (isset($data['stat']['view'])){
+                array_push($this->stat_view, $data['stat']['view']);}
+                else { array_push($this->stat_view, null);}
 
             }
         }
