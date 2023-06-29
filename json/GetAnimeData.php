@@ -17,48 +17,13 @@ $total = $biliA->total;  // 追番总数
 $total_page = intdiv($total, $limit);  // 分页总数
 $pagenum = $page * $limit;  // 第一页为 page = 0
 
-// 观看进度
-function progress($str1, $str2,$str3)
-{
-    if (is_numeric($str1) && is_numeric($str2) && $str1 == $str2 && $str3 == 1) {
-        return "观看到第" . $str1 . "话（最终）了~";
-    } elseif (is_numeric($str1) && is_numeric($str2) && $str1 == $str2) {
-        return "观看到第" . $str1 . "话（最新）了~";
-    } elseif (is_numeric($str1) && is_numeric($str2) && $str1<$str2 && $str3 == 1) {
-        return "观看到第" . $str1 . "话/共" . $str2 . "话";    
-    } elseif (is_numeric($str1) && is_numeric($str2) && $str1<$str2) {
-        return "观看到第" . $str1 . "话/已更新" . $str2 . "话";
-    } elseif (is_numeric($str1) && is_numeric($str2) && $str1>$str2) {
-        return "观看到第" . $str1 . "话预告/番外【非正片】";
-    } elseif (is_numeric($str1) && !is_numeric($str2)) {
-        return "第" . $str1 . "话/" . $str2;
-    } elseif ($str2 == "还没开始更新呢~") {
-        return $str2;
-    } else {
-        return $str1;
-    }
-}
-// 观看进度条
-function progress_bar($str1, $str2)
-{
-    if (is_numeric($str1) && is_numeric($str2)) {
-        return ($str1 / $str2 * 100) . "%";
-    } elseif ($str1 == "貌似还没有看呢~" || $str2 == "还没开始更新呢~") {
-        return "0%";
-    } else {
-        return "100%";
-    }
-}
 
 //完结状态
-function finish($str1,$str2)
+function finish($str1)
 {
     if (is_numeric($str1) && $str1 == 1) 
     {
         return "已完结";
-    } elseif ($str2 == "还没开始更新呢~") 
-    {
-        return "敬请期待";
     } elseif (is_numeric($str1) && $str1 == 0)
     {
         return "连载中";
@@ -102,7 +67,7 @@ function rating_count($count)
 //播放量k，w
 function play($num)
 {
-    if($num == null){
+    if($num == null || !is_numeric($num)){
         return " 暂无播放量 " ;
     }
     if($num >= 1000 && $num < 10000){
@@ -120,7 +85,7 @@ function url ($id,$area)
 {   if ($area ==1) {
     return "https://www.bilibili.com/bangumi/play/ss". $id ."/";}
     else {
-    return "https://www.bilibili.com/bangumi/play/ss". $id ."/" ;    
+    return  "https://www.bilibili.com/bangumi/play/ss". $id ."/";;    
     }
 }
 function area ($num)
@@ -154,12 +119,11 @@ for ($i = 0; $i < $total; $i++) {
     $array[$i]['view'] = play($biliA->stat_view[$pagenum]);
     $array[$i]['rating_score'] = rating_score($biliA->rating_score[$pagenum]);
     $array[$i]['rating_count'] = rating_count($biliA->rating_count[$pagenum]);
-    $array[$i]['progress'] = progress($biliA->progress[$pagenum], $biliA->fan_number[$pagenum], $biliA->finish[$pagenum]);
-    $array[$i]['progress_bar'] = progress_bar($biliA->progress[$pagenum], $biliA->fan_number[$pagenum]);
-    $array[$i]['finish'] = finish($biliA->finish[$pagenum],$biliA->fan_number[$pagenum]);
+    $array[$i]['finish'] = finish($biliA->finish[$pagenum]);
     $array[$i]['follow_status'] = follow_status($biliA->follow_status[$pagenum]);
     $array[$i]['url'] = url($biliA-> season_id[$pagenum],$biliA-> area[$pagenum]);
     $array[$i]['right_area'] = area($biliA-> area[$pagenum]);
+    $array[$i]['type'] = $biliA->type[$pagenum];
     $pagenum++;
 }
 echo '{"total": ' . $total . ',"total_page": ' . $total_page . ', "limit": ' . $limit . ', "page": ' . $page . ', "data":' . json_encode($array, true) . '}';
