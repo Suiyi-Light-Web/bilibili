@@ -75,7 +75,9 @@ get_header(); ?>
     .bangumi-banner:hover .bangumi-des {
         opacity: 1
     }
-
+    .bangumi-content {
+        border-bottom: solid 0.5px #bbb;
+    }
     .bangumi-title {
         margin: 5px 0;
         border: none !important;
@@ -94,7 +96,7 @@ get_header(); ?>
         text-align: center;
     }
 
-    .bangumi-right-area,.bangumi-follow_status,.bangumi-finish{
+    .bangumi-type,.bangumi-follow_status,.bangumi-finish{
         margin: 5px;
         border: 1px solid var(--themecolor-light);
         display: inline-block;
@@ -207,7 +209,7 @@ echo "<div class=\"page-header\"><h2>我的追番 <small>当前已追<span id=to
                 }
                 for (i = 0; i < data.data.length; i++) {
                     $("#bilibiliAnime").append("<div class=\"bangumi-item col-md-4 col-lg-3 col-sm-6\"><a class=\"no-line bangumi-link\" href=\"" + data.data[i].url + " \" target=\"_blank\"><div class=\"bangumi-banner\"><img referrerpolicy=\"no-referrer\" src=\"" + data.data[i].image_url + "\"><div class=\"bangumi-des\"><p>" + data.data[i].title + "【" + data.data[i].finish + "】</p>播放：" + data.data[i].
-                   view+ "<br>B站评分：<span class=\"score\">" + data.data[i].rating_score + "</span><br>评分人数：" + data.data[i].rating_count + "<br>版权区域："+ data.data[i].right_area + "<p>" + data.data[i].evaluate + "</p></div></div><div class=\"bangumi-content\"><div class=\"bangumi-title\">" + data.data[i].title + "<span class=\"score\"><small>" + data.data[i].rating_score + "</small></span></div><div class=\"bangumi-status\" style=\"width:100%\"><span class=\"bangumi-right-area\">" + data.data[i].right_area + "</span><span class=\"bangumi-follow_status\">" + data.data[i].follow_status + "</span><span class=\"bangumi-finish\">" + data.data[i].finish + "</span></div><div class=\"bangumi-progress\" style=\"width:100%\"><div class=\"bangumi-progress-bar\" style=\"width:" + data.data[i].progress_bar + "\"></div></div><div class=\"bangumi-progress-num\">" + data.data[i].progress + "</div></div></a></div>");
+                   view+ "<br>B站评分：<span class=\"score\">" + data.data[i].rating_score + "</span><br>评分人数：" + data.data[i].rating_count + "<br>版权区域："+ data.data[i].right_area + "（仅供参考）<p>" + data.data[i].evaluate + "</p></div></div><div class=\"bangumi-content\"><div class=\"bangumi-title\">" + data.data[i].title + "<span class=\"score\"><small>" + data.data[i].rating_score + "</small></span></div></div><div class=\"bangumi-status\" style=\"width:100%\"><span class=\"bangumi-type\">" + data.data[i].type+ "</span><span class=\"bangumi-finish\">" + data.data[i].finish + "</span><span class=\"bangumi-follow_status\">" + data.data[i].follow_status + "</span></div></a></div>");
                     // console.log(data); // 查看AJAX获取的数据
                 }
             },
